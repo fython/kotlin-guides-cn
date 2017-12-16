@@ -1,10 +1,10 @@
 # Site settings
 title: Android Kotlin Guides
-email: your-email@domain.com
+email: fythonx@gmail.com
 description: >
-  Official guides for developing Kotlin on Android.
-baseurl: "/kotlin-guides"
-url: "https://android.github.io"
+  在 Android 上开发 Kotlin 的官方指导
+baseurl: "/kotlin-guides-cn"
+url: "https://fython.github.io"
 
 # Build settings
 markdown: kramdown
