@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Contribute
+title: 贡献
 site_nav_category: contribute
 site_nav_category_order: 400
 is_site_nav_category: true

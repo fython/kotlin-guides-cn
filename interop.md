@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Interop guide
+title: 互通指导
 site_nav_category: interop
 is_site_nav_category: true
 site_nav_category_order: 300

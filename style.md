@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Style guide
+title: 代码风格指导
 site_nav_category_order: 200
 is_site_nav_category: true
 site_nav_category: style
@@ -457,7 +457,7 @@ Beyond where required by the language or other style rules, and apart from liter
     // Okay
     class Foo : Runnable
     ```
-    
+
     ```kotlin
     // WRONG
     fun <T: Comparable> max(a: T, b: T)
