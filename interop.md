@@ -6,18 +6,18 @@ is_site_nav_category: true
 site_nav_category_order: 300
 ---
 
-A set of rules for authoring public APIs in Java and Kotlin with the intent that the code will feel idiomatic when consumed from the other language.
+一套用于编写 Java 与 Kotlin 间使用公共 API 的规则，目的是让代码在其它语言也能使用到感到习惯的用法。
 
 _<a href="changelog.html">Last update: {{ site.changes.last.date | date: "%Y-%m-%d" }}</a>_
 
 
-# Java (for Kotlin consumption)
+# Java (为 Kotlin 使用时)
 
-## No hard keywords
+## 没有硬性关键字
 
-Do not use Kotlin's [hard keywords](https://kotlinlang.org/docs/reference/keyword-reference.html#hard-keywords) as the name of methods or fields. These require the use of backticks to escape when calling from Kotlin. [Soft keywords](https://kotlinlang.org/docs/reference/keyword-reference.html#soft-keywords), [modifier keywords](https://kotlinlang.org/docs/reference/keyword-reference.html#modifier-keywords), and [special identifiers](https://kotlinlang.org/docs/reference/keyword-reference.html#special-identifiers) are allowed.
+不要使用 Kotlin 的 [硬性关键字（Hard keywords）](https://kotlinlang.org/docs/reference/keyword-reference.html#hard-keywords) 作为方法或者成员的名字。这些会令 Kotlin 在调用时要求使用反引号。[非硬性关键字（Soft keywords）](https://kotlinlang.org/docs/reference/keyword-reference.html#soft-keywords)、[修饰符关键字](https://kotlinlang.org/docs/reference/keyword-reference.html#modifier-keywords) 和 [特殊标识符](https://kotlinlang.org/docs/reference/keyword-reference.html#special-identifiers) 则允许。
 
-For example, Mockito's `when` function requires backticks when used from Kotlin:
+例如，Mockito 的 `when` 方法当在 Kotlin 调用时需要反引号：
 
 ```kotlin
 val callable = Mockito.mock(Callable::class.java)
@@ -25,11 +25,11 @@ Mockito.`when`(callable.call()).thenReturn(/* … */)
 ```
 
 
-## Lambda parameters last
+## Lambda 参数放最后
 
-Parameter types eligible for [SAM conversion](https://kotlinlang.org/docs/reference/java-interop.html#sam-conversions) should be last.
+适用于 [SAM 转换](https://kotlinlang.org/docs/reference/java-interop.html#sam-conversions) 的参数类型应该放到最后。
 
-For example, RxJava 2's `Flowable.create()` method signature is defined as:
+例如，RxJava 2 的 `Flowable.create()` 方法签名被定义为：
 
 ```java
 public static <T> Flowable<T> create(
@@ -37,24 +37,24 @@ public static <T> Flowable<T> create(
     BackpressureStrategy mode) { /* … */ }
 ```
 
-Because `FlowableOnSubscribe` is eligible for SAM conversion, function calls of this method from Kotlin look like this:
+因为 `FlowableOnSubscribe` 适用于 SAM 转换，Kotlin 中调用这个方法看起来像这样：
 
 ```kotlin
 Flowable.create({ /* … */ }, BackpressureStrategy.LATEST)
 ```
 
-If the parameters were reversed in the method signature, though, function calls could use the trailing-lambda syntax:
+如果方法签名中的参数被颠倒过来，函数调用可以使用尾部 Lambda 语法：
 
 ```kotlin
 Flowable.create(BackpressureStrategy.LATEST) { /* … */ }
 ```
 
 
-## Property prefixes
+## 属性前缀
 
-For a method to be represented as a property in Kotlin, strict "bean"-style prefixing must be used.
+对于在 Kotlin 中要表示为属性的方法，必须使用严格的 Bean 风格前缀。
 
-Accessor methods require a 'get' prefix or for `boolean`-returning methods an 'is' prefix can be used.
+属性访问方法需要一个 `get` 前缀，返回类型为 `boolean` 的方法可以使用 `is` 作为前缀。
 
 ```java
 public final class User {
@@ -67,7 +67,7 @@ val name = user.name // Invokes user.getName()
 val active = user.active // Invokes user.isActive()
 ```
 
-Associated mutator methods require a 'set' prefix.
+对应的改值方法需要 `set` 前缀。
 
 ```java
 public final class User {
@@ -76,15 +76,15 @@ public final class User {
 }
 ```
 ```kotlin
-user.name = "Bob" // Invokes user.setName(String)
+user.name = "Bob" // 会调用 user.setName(String)
 ```
 
-If you want methods exposed as properties, do not use non-standard prefixes like 'has'/'set' or non-'get'-prefixed accessors. Methods with non-standard prefixes are still callable as functions which may be acceptable depending on the behavior of the method.
+如果你想让方法公开为属性，不要使用不标准的前缀，如 `has`/`set` 或者非 `get` 前缀的访问方法。带非标准前缀的方法仍然可以调用，能否接受取决于它的行为。
 
 
-## Operator overloading
+## 操作符重载
 
-Be mindful of method names which allow special call-site syntax (i.e., [operator overloading](https://kotlinlang.org/docs/reference/operator-overloading.html)) in Kotlin. Ensure that methods names as such make sense to use with the shortened syntax.
+注意在 Kotlin 语法中允许“特殊语法”调用的方法名 (即 [操作符重载](https://kotlinlang.org/docs/reference/operator-overloading.html))。保证方法名和缩短的语法一起使用是有意义的。
 
 ```java
 public final class IntBox {
@@ -100,50 +100,50 @@ public final class IntBox {
 ```kotlin
 val one = IntBox(1)
 val two = IntBox(2)
-val three = one + two // Invokes one.plus(two)
+val three = one + two // 会调用 one.plus(two)
 ```
 
 
-## Nullability annotations
+## 可空性注释
 
-Every non-primitive parameter, return, and field type in a public API should have a nullability annotation. Non-annotated types are interpreted as ["platform" types](https://kotlinlang.org/docs/reference/java-interop.html#null-safety-and-platform-types) which have ambiguous nullability.
+在公开的 API 里所有的非原生类型参数、返回值和字段类型都应该有可空性注释。未标注的类型会被转译为带含糊的可空性的 [“平台”类型](https://kotlinlang.org/docs/reference/java-interop.html#null-safety-and-platform-types)。
 
-JSR 305 package annotations could be used to set up a reasonable default but are currently discouraged. They require an opt-in flag to be honored by the compiler and conflict with Java 9's module system.
-
-
-# Kotlin (for Java consumption)
-
-## File name
-
-When a file contains top-level functions or properties, *always* annotate it with `@file:JvmName("Foo")` to provide a nice name.
-
-By default, top-level members in a file `Foo.kt` will end up in a class called `FooKt` which is unappealing and leaks the language as an implementation detail.
-
-Consider adding `@file:JvmMultifileClass` to combine the top-level members from multiple files into a single class.
+JSR 305 包注释可以用来设定合理的默认值但目前不鼓励。他们要求编译器承认 Opt-in 标记且与 Java 9 的模块系统冲突。
 
 
-## Lambda arguments
+# Kotlin (为 Java 使用时)
 
-[Function types](https://kotlinlang.org/docs/reference/lambdas.html#function-types) which are meant to be used from Java should avoid the return type `Unit`. Doing so requires specifying an explicit `return Unit.INSTANCE;` statement which is unidiomatic.
+## 文件名
+
+当一个文件包含顶级方法或属性时，*始终* 要用 `@file:JvmName("Foo")` 来标注它以提供一个好听的名字。
+
+在默认情况，一个文件 `Foo.kt` 中的顶级成员最终会到一个叫 `FooKt` 的类里，这很没有吸引力同时也泄露了语言作为实现细节。
+
+考虑添加 `@file:JvmMultifileClass` 注释将多个文件中的顶级成员合并为一个类。
+
+
+## Lambda 参数
+
+被 Java 使用的 [方法类型](https://kotlinlang.org/docs/reference/lambdas.html#function-types) 应该避免返回 `Unit`。这么做的话就要指定一条明确的表达式： `return Unit.INSTANCE;` 。
 
 ```kotlin
 fun sayHi(callback: (String) -> Unit) = /* … */
 ```
 ```kotlin
-// Kotlin caller:
-greeter.sayHi { Log.d("Greeting", "Hello, $it!") }
+// Kotlin 调用者:
+greeter.sayHi { Log.d("打招呼", "你好，$it！") }
 ```
 ```java
-// Java caller:
+// Java 调用者:
 greeter.sayHi(name -> {
-    Log.d("Greeting", "Hello, " + name + "!");
+    Log.d("打招呼", "你好，" + name + "！");
     return Unit.INSTANCE;
 });
 ```
 
-This syntax also does not allow providing a semantically named type such that it can be implemented on other types.
+这个语法也不允许提供一个语义命名的类型，以便能在其它类型上实现。
 
-Defining a named, single-abstract method (SAM) interface in Kotlin for the lambda type corrects the problem for Java, but prevents lambda syntax from being used in Kotlin.
+在 Kotlin 中为 Lambda 类型定义命名一个单抽象（SAM）方法可以纠正 Java 的问题，但会阻止 Kotlin 中使用 Lambda 语法。
 
 ```kotlin
 interface GreeterCallback {
@@ -153,22 +153,22 @@ interface GreeterCallback {
 fun sayHi(callback: GreeterCallback) = /* … */
 ```
 ```kotlin
-// Kotlin caller:
+// Kotlin 调用者:
 greeter.sayHi(object : GreeterCallback {
     override fun greetName(name: String) {
-        Log.d("Greeting", "Hello, $name!")
+        Log.d("打招呼", "你好，$name！")
     }
 })
 ```
 ```java
-// Java caller:
-greeter.sayHi(name -> Log.d("Greeting", "Hello, " + name + "!"))
+// Java 调用者:
+greeter.sayHi(name -> Log.d("打招呼", "你好，" + name + "！"))
 ```
 
-Defining a named, SAM interface in Java allows the use of a slightly inferior version of the Kotlin lambda syntax where the interface type must be explicitly specified.
+在 Java 中定义命名一个单抽象（SAM）接口允许 Kotlin 使用较低级的 Lambda 语法，其中接口类型必须明确指定。
 
 ```java
-// Defined in Java:
+// 在 Java 中定义:
 interface GreeterCallback {
     void greetName(String name);
 }
@@ -177,37 +177,37 @@ interface GreeterCallback {
 fun sayHi(greeter: GreeterCallback) = /* … */
 ```
 ```kotlin
-// Kotlin caller:
-greeter.sayHi(GreeterCallback { Log.d("Greeting", "Hello, $it!") })
+// Kotlin 调用者:
+greeter.sayHi(GreeterCallback { Log.d("打招呼", "你好，$it！") })
 ```
 ```java
-// Java caller:
-greeter.sayHi(name -> Log.d("Greeter", "Hello, " + name + "!"));
+// Java 调用者:
+greeter.sayHi(name -> Log.d("打招呼", "你好，" + name + "！"));
 ```
 
-At present there is no way to define a parameter type for use as a lambda from both Java and Kotlin such that it feels idiomatic from both languages. The current recommendation is to prefer the function type despite the degraded experience from Java when the return type is `Unit`.
+目前还没有办法在 Java 和 Kotlin 中定义一个参数类型作为 Lambda，这可以感受到两种语言的习惯。目前的建议是选用 [方法类型](https://kotlinlang.org/docs/reference/lambdas.html#function-types)，尽管返回类型是 `Unit` 时 Java 上体验不佳。
 
-_Note: This recommendation might change in the future. See [KT-7770](https://youtrack.jetbrains.com/issue/KT-7770) and [KT-21018](https://youtrack.jetbrains.com/issue/KT-21018)._
+_注明: 这个建议未来可能会改变，请看 [KT-7770](https://youtrack.jetbrains.com/issue/KT-7770) 和 [KT-21018](https://youtrack.jetbrains.com/issue/KT-21018)。_
 
 
-## Avoid `Nothing` generics
+## 避免 `Nothing` 泛型
 
 A type whose generic parameter is `Nothing` is exposed as raw types to Java. Raw types are rarely used in Java and should be avoided.
 
 
-## Document exceptions
+## 记载 Exceptions
 
 Functions which can throw checked exceptions should document them with `@Throws`. Runtime exceptions should be documented in KDoc.
 
 Be mindful of the APIs a function delegates to as they may throw checked exceptions which Kotlin otherwise silently allows to propagate.
 
 
-## Defensive copies
+## 预防性复制副本
 
 When returning shared or unowned read-only collections from public APIs, wrap them in an unmodifiable container or perform a defensive copy. Despite Kotlin enforcing their read-only property, there is no such enforcement on the Java side. Without the wrapper or defensive copy, invariants can be violated by returning a long-lived collection reference.
 
 
-## Companion functions
+## 伴随方法
 
 Public functions in a `companion object` must be annotated with `@JvmStatic` to be exposed as a static method.
 
@@ -253,7 +253,7 @@ public final class JavaClass {
 ```
 
 
-## Companion constants
+## 伴随常量
 
 Public, non-`const` properties which are [_effective constants_](TODO) in a `companion object` must be annotated with `@JvmField` to be exposed as a static field.
 
@@ -316,7 +316,7 @@ public final class JavaClass {
 }
 ```
 
-## Idiomatic naming
+## 习惯命名
 
 Kotlin has different calling conventions than Java which can change the way you name functions. Use `@JvmName` to design names such that they'll feel idiomatic for both language's conventions or to match their respective standard library naming.
 
@@ -346,7 +346,7 @@ public static void main(String... args) {
 }
 ```
 
-## Function overloads for defaults
+## 默认参数的方法重载
 
 Functions with parameters having a default value must use `@JvmOverloads`. Without this annotation it is impossible to invoke the function using any default values.
 
