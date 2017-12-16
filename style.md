@@ -6,7 +6,7 @@ is_site_nav_category: true
 site_nav_category: style
 ---
 
-这篇文档提供了使用 Kotlin 编程语言开发 Android 的 Google 代码标准完整定义。当且仅当遵循这里的规范时，Kotlin 源文件为 Google Android 风格。
+这篇文档提供了使用 Kotlin 编程语言开发 Android 的 Google 代码标准完整定义。Google Android 风格的 Kotlin 源文件应当遵循这里的规范。
 
 类似其它编程风格规范，所包括的问题不仅涉及格式的美观问题，也涉及了其它约定和编码标准。然而，本文主要专注于我们都要遵循的硬性规定，并避免给出不明确以执行（无论由人还是工具）的建议。
 
@@ -18,7 +18,7 @@ _<a href="changelog.html">上次更新时间（官方源）: {{ site.changes.las
 
 ## 命名
 
-If a source file contains only a single top-level class, the file name should reflect the case-sensitive name plus the `.kt` extension. Otherwise, if a source file contains multiple top-level declarations, choose a name that describes the contents of the file, apply PascalCase, and append the `.kt` extension.
+如果一个源文件只包含一个顶级类，文件名应为对应的区分大小写的名并加上 `.kt` 扩展名。除此以外，如果一个源文件包含多个顶级声明，选择一个可以描述文件内容的名字，应用 PascalCase 命名法，然后加上 `.kt` 扩展名。
 
 ```kotlin
 // Foo.kt
@@ -37,42 +37,42 @@ fun <T, O> List<T>.map(func: (T) -> O): List<O> = // …
 
 ### 空白字符
 
-Aside from the line terminator sequence, the **ASCII horizontal space character (0x20)** is the only whitespace character that appears anywhere in a source file. This implies that:
+除了换行符, **ASCII 横向空格字符 (0x20)** 是唯一可在源文件里出现的空格字符。这意味着：
 
- 1. All other whitespace characters in string and character literals are escaped.
- 2. Tab characters are **not** used for indentation.
+ 1. 所有字符串和字符中的其它空白字符都会被转义。
+ 2. Tab 字符 **不会被** 用于缩进。
 
 ### 特殊的转义符
 
-For any character that has a [special escape sequence](https://kotlinlang.org/docs/reference/basic-types.html#characters) (`\b`, `\n`, `\r`, `\t`, `\'`, `\"`, `\\`, and `\$`), that sequence is used rather than the corresponding Unicode (e.g., `\u000a`) escape.
+对于任何有 [特殊转义符](https://kotlinlang.org/docs/reference/basic-types.html#characters) 的字符应该使用对应的字符串 (`\b`, `\n`, `\r`, `\t`, `\'`, `\"`, `\\`, and `\$`) 而不是相应的 Unicode (例如 `\u000a`) 转义符。
 
 ### 非 ASCII 字符
 
-For the remaining non-ASCII characters, either the actual Unicode character (e.g., `∞`) or the equivalent Unicode escape (e.g., `\u221e`) is used. The choice depends only on which makes the code **easier to read and understand**. Unicode escapes are discouraged for printable characters at any location and are strongly discouraged outside of string literals and comments.
+对于其余的非 ASCII 字符，使用实际的 Unicode 字符 (例如 `∞`) 或者同义的 Unicode 转义符 (例如 `\u221e`)。选择取决于哪种让代码 **更易于阅读理解** 。强烈建议除了字符串和注释以外，可显示的字符都不使用 Unicode 转义符。
 
-| **Example**                        | **Discussion**                                                           |
-|------------------------------------|--------------------------------------------------------------------------|
-| `val unitAbbrev = "μs"`            | Best: perfectly clear even without a comment.                            |
-| `val unitAbbrev = "\u03bcs" // μs` | Poor: there's no reason to use an escape with a printable character.     |
-| `val unitAbbrev = "\u03bcs"`       | Poor: the reader has no idea what this is.                               |
-| `return "\ufeff" + content`        | Good: use escapes for non-printable characters, and comment if necessary.|
+| **例子**                           | **评论**                                        |
+|------------------------------------|-------------------------------------------------|
+| `val unitAbbrev = "μs"`            | 最好: 即便没有标注也很清晰                      |
+| `val unitAbbrev = "\u03bcs" // μs` | 不建议: 这里没有理由为一个可显示的字符进行转义。|
+| `val unitAbbrev = "\u03bcs"`       | 不建议: 读者不知道这是什么字符                  |
+| `return "\ufeff" + content`        | 可以: 为不显示的字符使用转义，有必要的时候标注  |
 
 
 ## 结构
 
-A `.kt` file comprises the following, in order:
+一个 `.kt` 文件按照顺序包含下列内容：
 
-1. Copyright and/or license header (optional)
-2. File-level annotations
-3. Package statement
-4. Import statements
-5. Top-level declarations
+1. 版权和/或许可头部 (可选)
+2. 文件级注释
+3. 包声明
+4. 引入声明
+5. 顶级声明
 
-Exactly one blank line separates each of these sections.
+恰好一行空白行来分割这些内容。
 
 ### 版权 / 许可
 
-If a copyright or license header belongs in the file it should be placed at the immediate top in a multi-line comment.
+如果文件中包含版权或许可证标题，则应该将它们放在多行注释的顶部。
 
 ```kotlin
 /*
@@ -82,7 +82,7 @@ If a copyright or license header belongs in the file it should be placed at the 
  */
  ```
 
-Do not use a [KDoc-style](https://kotlinlang.org/docs/reference/kotlin-doc.html) or single-line-style comment.
+不要使用 [KDoc 风格](https://kotlinlang.org/docs/reference/kotlin-doc.html) 或者 单行风格 注释。
 
 ```kotlin
 /**
@@ -99,35 +99,35 @@ Do not use a [KDoc-style](https://kotlinlang.org/docs/reference/kotlin-doc.html)
 
 ### 文件级别注解
 
-Annotations with the 'file' [use-site target](https://kotlinlang.org/docs/reference/annotations.html#annotation-use-site-targets) are placed between any header comment and the package declaration.
+注释和 'file' [use-site target](https://kotlinlang.org/docs/reference/annotations.html#annotation-use-site-targets) 应放置在包声明和任意头部注释。
 
 ### 包声明
 
-The package statement is not subject to any column limit and is never line-wrapped.
+包声明不受任何列的限制且永不换行。
 
 ### 引入声明
 
-Import statements for classes, functions, and properties are grouped together in a single list and ASCII sorted.
+为类、方法、属性的引入应组合到单个 ASCII 顺序排列的列表。
 
-Wildcard imports (of any type) are **not allowed**.
+任意类型的通配符在引入中是 **不允许的**。
 
-Similar to the package statement, import statements are not subject to a column limit and they are never line-wrapped.
+和包声明一样，引入声明也不受任何列的限制且永不换行。
 
 ### 顶级声明
 
-A `.kt` file can declare one or more types, functions, properties, or type aliases at the top-level.
+一个 `.kt` 文件可以在顶级声明一个或多个类型、方法、属性和类型别名。
 
-The contents of a file should be focused on a single theme. Examples of this would be a single public type or a set of extension functions performing the same operation on multiple receiver types. Unrelated declarations should be separated into their own files and public declarations within a single file should be minimized.
+一个文件的内容应该专注于同一个主题，这个例子可以是单个公开类或者一组扩展函数在多个接收器（Receivers）类型上执行相同的操作。不相关的声明应该被分到它们对应的文件，并应当减少单个文件的公开声明。
 
-No explicit restriction is placed on the number nor order of the contents of a file.
+对文件内容的数量和顺序没有明确的限制。
 
-Source files are usually read from top-to-bottom meaning that the order, in general, should reflect that the declarations higher up will inform understanding of those farther down. Different files may choose to order their contents differently. Similarly, one file may contain 100 properties, another 10 functions, and yet another a single class.
+源文件通常是从上至下的阅读，这意味着顺序通常反应出上面的声明会让人们更深入地裂解这些内容。不同的文件可能选择不同的顺序。同样地，一个文件可能包含 100 个属性、10 个函数以及另外的一个类。
 
-What is important is that each class uses **_some_ logical order**, which its maintainer could explain if asked. For example, new functions are not just habitually added to the end of the class, as that would yield "chronological by date added" ordering, which is not a logical ordering.
+重要的是，每个类都是用 **_一些_** 维护者可以解释的 **逻辑顺序**。例如，新的方法不只是习惯地添加到类之后，这样会产生不合乎逻辑的“按日期添加”顺序。
 
 ### 类成员排序
 
-The order of members within a class follow the same rules as the top-level declarations.
+类的成员顺序和顶级声明遵循同样的规则。
 
 
 # 格式
