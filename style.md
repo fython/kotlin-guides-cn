@@ -6,7 +6,7 @@ is_site_nav_category: true
 site_nav_category: style
 ---
 
-这篇文档提供了使用 Kotlin 编程语言开发 Android 的 Google 代码标准完整定义。当且仅当遵循这里的规范时，Kotlin 源文件为 Google Android 风格。
+这篇文档提供了使用 Kotlin 编程语言开发 Android 的 Google 代码标准完整定义。Google Android 风格的 Kotlin 源文件应当遵循这里的规范。
 
 类似其它编程风格规范，所包括的问题不仅涉及格式的美观问题，也涉及了其它约定和编码标准。然而，本文主要专注于我们都要遵循的硬性规定，并避免给出不明确以执行（无论由人还是工具）的建议。
 
