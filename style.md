@@ -6,17 +6,17 @@ is_site_nav_category: true
 site_nav_category: style
 ---
 
-This document serves as the complete definition of Google's Android coding standards for source code in the Kotlin Programming Language. A Kotlin source file is described as being in Google Android Style if and only if it adheres to the rules herein.
+这篇文档提供了使用 Kotlin 编程语言开发 Android 的 Google 代码标准完整定义。当且仅当遵循这里的规范时，Kotlin 源文件为 Google Android 风格。
 
-Like other programming style guides, the issues covered span not only aesthetic issues of formatting, but other types of conventions or coding standards as well. However, this document focuses primarily on the hard-and-fast rules that we follow universally, and avoids giving advice that isn't clearly enforceable (whether by human or tool).
+类似其它编程风格规范，所包括的问题不仅涉及格式的美观问题，也涉及了其它约定和编码标准。然而，本文主要专注于我们都要遵循的硬性规定，并避免给出不明确以执行（无论由人还是工具）的建议。
 
-_<a href="changelog.html">Last update: {{ site.changes.last.date | date: "%Y-%m-%d" }}</a>_
+_<a href="changelog.html">上次更新时间（官方源）: {{ site.changes.last.date | date: "%Y-%m-%d" }}</a>_
 
-# Source files
+# 源文件
 
-All source files must be encoded as UTF-8.
+所有源文件必须以 UTF-8 为编码。
 
-## Naming
+## 命名
 
 If a source file contains only a single top-level class, the file name should reflect the case-sensitive name plus the `.kt` extension. Otherwise, if a source file contains multiple top-level declarations, choose a name that describes the contents of the file, apply PascalCase, and append the `.kt` extension.
 
@@ -33,20 +33,20 @@ fun <T, O> Set<T>.map(func: (T) -> O): List<O> = // …
 fun <T, O> List<T>.map(func: (T) -> O): List<O> = // …
 ```
 
-## Special Characters
+## 特殊字符
 
-### Whitespace characters
+### 空白字符
 
 Aside from the line terminator sequence, the **ASCII horizontal space character (0x20)** is the only whitespace character that appears anywhere in a source file. This implies that:
 
  1. All other whitespace characters in string and character literals are escaped.
  2. Tab characters are **not** used for indentation.
 
-### Special escape sequences
+### 特殊的转义符
 
 For any character that has a [special escape sequence](https://kotlinlang.org/docs/reference/basic-types.html#characters) (`\b`, `\n`, `\r`, `\t`, `\'`, `\"`, `\\`, and `\$`), that sequence is used rather than the corresponding Unicode (e.g., `\u000a`) escape.
 
-### Non-ASCII characters
+### 非 ASCII 字符
 
 For the remaining non-ASCII characters, either the actual Unicode character (e.g., `∞`) or the equivalent Unicode escape (e.g., `\u221e`) is used. The choice depends only on which makes the code **easier to read and understand**. Unicode escapes are discouraged for printable characters at any location and are strongly discouraged outside of string literals and comments.
 
@@ -58,7 +58,7 @@ For the remaining non-ASCII characters, either the actual Unicode character (e.g
 | `return "\ufeff" + content`        | Good: use escapes for non-printable characters, and comment if necessary.|
 
 
-## Structure
+## 结构
 
 A `.kt` file comprises the following, in order:
 
@@ -70,7 +70,7 @@ A `.kt` file comprises the following, in order:
 
 Exactly one blank line separates each of these sections.
 
-### Copyright / License
+### 版权 / 许可
 
 If a copyright or license header belongs in the file it should be placed at the immediate top in a multi-line comment.
 
@@ -97,15 +97,15 @@ Do not use a [KDoc-style](https://kotlinlang.org/docs/reference/kotlin-doc.html)
 // ...
 ```
 
-### File-level annotations
+### 文件级别注解
 
 Annotations with the 'file' [use-site target](https://kotlinlang.org/docs/reference/annotations.html#annotation-use-site-targets) are placed between any header comment and the package declaration.
 
-### Package statement
+### 包声明
 
 The package statement is not subject to any column limit and is never line-wrapped.
 
-### Import statements
+### 引入声明
 
 Import statements for classes, functions, and properties are grouped together in a single list and ASCII sorted.
 
@@ -113,7 +113,7 @@ Wildcard imports (of any type) are **not allowed**.
 
 Similar to the package statement, import statements are not subject to a column limit and they are never line-wrapped.
 
-### Top-level declarations
+### 顶级声明
 
 A `.kt` file can declare one or more types, functions, properties, or type aliases at the top-level.
 
@@ -125,14 +125,14 @@ Source files are usually read from top-to-bottom meaning that the order, in gene
 
 What is important is that each class uses **_some_ logical order**, which its maintainer could explain if asked. For example, new functions are not just habitually added to the end of the class, as that would yield "chronological by date added" ordering, which is not a logical ordering.
 
-### Class member ordering
+### 类成员排序
 
 The order of members within a class follow the same rules as the top-level declarations.
 
 
-# Formatting
+# 格式
 
-## Braces
+## 花括号
 
 Braces are not required for `when` branches and `if` statement bodies which have no `else if`/`else` branches and which fit on a single line.
 
@@ -156,7 +156,7 @@ if (string.isEmpty()) {
 }
 ```
 
-### Non-empty blocks
+### 非空代码区块
 
 Braces follow the Kernighan and Ritchie style ("Egyptian brackets") for nonempty blocks and block-like constructs:
 
@@ -191,7 +191,7 @@ return object : MyClass() {
 
 A few exceptions for [enum classes](#enum-classes) are given below.
 
-### Empty blocks
+### 空的代码区块
 
 An empty block or block-like construct must be in K&R style.
 
@@ -207,7 +207,7 @@ try {
 } // Okay
 ```
 
-### Expressions
+### 表达式
 
 An `if`/`else` conditional that is used as an expression may omit braces _only_ if the entire expression fits on one line.
 
@@ -229,17 +229,17 @@ val value = if (string.isEmpty()) { // Okay
 ```
 
 
-## Indentation
+## 缩进
 
 Each time a new block or block-like construct is opened, the indent increases by four spaces. When the block ends, the indent returns to the previous indent level. The indent level applies to both code and comments throughout the block.
 
 
-## One statement per line
+## 一行一句
 
 Each statement is followed by a line break. Semicolons are not used.
 
 
-## Line wrapping
+## 行宽
 
 Code has a column limit of 100 characters. Except as noted below, any line that would exceed this limit must be line-wrapped, as explained below.
 
@@ -249,7 +249,7 @@ Exceptions:
 * `package` and `import` statements
 * Command lines in a comment that may be cut-and-pasted into a shell
 
-### Where to break
+### 断句位置
 
 The prime directive of line-wrapping is: prefer to break at a **higher syntactic level**. Also:
 
@@ -265,13 +265,13 @@ The prime directive of line-wrapping is: prefer to break at a **higher syntactic
 Note: The primary goal for line wrapping is to have clear code, _not necessarily_ code that fits in the smallest number of lines.
 
 
-### Continuation indent
+### 继续缩进
 
 When line-wrapping, each line after the first (each _continuation line_) is indented at least +8 from the original line.
 
 When there are multiple continuation lines, indentation may be varied beyond +8 as desired. In general, two continuation lines use the same indentation level if and only if they begin with syntactically parallel elements.
 
-### Functions
+### 函数
 
 When a function signature does not fit on a single line, break each parameter declaration onto its own line. Parameters defined in this format should use a single indent (+4). The closing parenthesis (`)`) and return type are placed on their own line with no additional indent.
 
@@ -285,7 +285,7 @@ fun <T> Iterable<T>.joinToString(
 }
 ```
 
-#### Expression functions
+#### 表达式函数
 
 When a function contains only a single expression it can be represented as an [expression function](https://kotlinlang.org/docs/reference/functions.html#single-expression-functions).
 
@@ -300,7 +300,7 @@ override fun toString(): String = "Hey"
 
 Expression functions should not wrap to two lines. If an expression function grows to require wrapping, use a normal function body, a `return` declaration, and normal expression wrapping rules instead.
 
-### Properties
+### 属性
 
 When a property initializer does not fit on a single line, break after the equals sign (`=`) and use a continuation indent.
 
@@ -325,9 +325,9 @@ val defaultExtension: String get() = "kt"
 ```
 
 
-## Whitespace
+## 空白
 
-### Vertical
+### 纵向
 
 A single blank line appears:
 
@@ -345,7 +345,7 @@ A single blank line appears:
 
 Multiple consecutive blank lines are permitted, but not encouraged or ever required.
 
-### Horizontal
+### 横向
 
 Beyond where required by the language or other style rules, and apart from literals, comments, and KDoc, a single ASCII space also appears in the following places only:
 
@@ -510,9 +510,9 @@ Beyond where required by the language or other style rules, and apart from liter
 This rule is never interpreted as requiring or forbidding additional space at the start or end of a line; it addresses only interior space.
 
 
-## Specific constructs
+## 具体构造
 
-### Enum classes
+### 常量类
 
 An enum with no functions and no documentation on its constants may optionally be formatted as a single line.
 
@@ -535,7 +535,7 @@ enum class Answer {
 
 Since enum classes are classes, all other rules for formatting classes apply.
 
-### Annotations
+### 注解
 
 Member or type annotations are placed on separate lines immediately prior to the annotated construct.
 
@@ -562,7 +562,7 @@ When only a single annotation without arguments is present it may be placed on t
 }
 ```
 
-### Implicit return/property types
+### 隐式返回/属性类型
 
 If an expression function body or a property initializer is a scalar value or the return type can be clearly inferred from the body then it can be omitted.
 
@@ -580,14 +580,14 @@ private val ICON = IconLoader.getIcon("/icons/kotlin.png")
 When writing a library, retain the explicit type declaration when it is part of the public API.
 
 
-# Naming
+# 命名
 
 Identifiers use only ASCII letters and digits, and, in a small number of cases noted below, underscores. Thus each valid identifier name is matched by the regular expression `\w+`.
 
 Special prefixes or suffixes, like those seen in the examples `name_`, `mName`, `s_name`, and `kName`, are not used except in the case of backing properties (see ["Backing properties"](#backing-properties)).
 
 
-## Package Names
+## 包名
 
 Package names are all lowercase, with consecutive words simply concatenated together (no underscores).
 
@@ -601,14 +601,14 @@ package com.example.deep_space
 ```
 
 
-## Type names
+## 类型名
 
 Class names are written in PascalCase and are typically nouns or noun phrases. For example, `Character` or `ImmutableList`. Interface names may also be nouns or noun phrases (for example, `List`), but may sometimes be adjectives or adjective phrases instead (for example `Readable`).
 
 Test classes are named starting with the name of the class they are testing, and ending with `Test`. For example, `HashTest` or `HashIntegrationTest`.
 
 
-## Function names
+## 函数名
 
 Function names are written in camelCase and are typically verbs or verb phrases. For example, `sendMessage` or `stop`.
 
@@ -621,7 +621,7 @@ Underscores are permitted to appear in test function names to separate logical c
 ```
 
 
-## Constant names
+## 常量名
 
 Constant names use UPPER_SNAKE_CASE: all uppercase letters, with words separated by underscores. But what _is_ a constant, exactly?
 
@@ -642,7 +642,7 @@ Constant values can only be defined inside of an `object` or as a top-level decl
 Constants which are scalar values must use the [`const` modifier](http://kotlinlang.org/docs/reference/properties.html#compile-time-constants).
 
 
-## Non-constant names
+## 变量（非常量）名
 
 Non-constant names are written in camelCase. These apply to instance properties, local properties, and parameter names.
 
@@ -658,7 +658,7 @@ val nonEmptyArray = arrayOf("these", "can", "change")
 
 These names are typically nouns or noun phrases.
 
-### Backing properties
+### 返回值属性
 
 When a [backing property](https://kotlinlang.org/docs/reference/properties.html#backing-properties) is needed, its name should exactly match that of the real property except prefixed with an underscore.
 
@@ -675,7 +675,7 @@ val table: Map<String, Int>
 ```
 
 
-## Type variable names
+## 类型变量名
 
 Each type variable is named in one of two styles:
 
@@ -683,7 +683,7 @@ Each type variable is named in one of two styles:
  2. A name in the form used for classes, followed by the capital letter `T` (such as `RequestT`, `FooBarT`)
 
 
-## Camel case
+## 驼峰命名
 
 Sometimes there is more than one reasonable way to convert an English phrase into camel case, such as when acronyms or unusual constructs like "IPv6" or "iOS" are present. To improve predictability, use the following scheme.
 
@@ -718,10 +718,10 @@ Note that the casing of the original words is almost entirely disregarded.
 **Note**: Some words are ambiguously hyphenated in the English language: for example "nonempty" and "non-empty" are both correct, so the method names `checkNonempty` and `checkNonEmpty` are likewise both correct.
 
 
-# Documentation
+# 文档
 
 
-## Formatting
+## 格式
 
 The basic formatting of KDoc blocks is seen in this example:
 
@@ -743,32 +743,32 @@ fun method(arg: String) {
 
 The basic form is always acceptable. The single-line form may be substituted when the entirety of the KDoc block (including comment markers) can fit on a single line. Note that this only applies when there are no block tags such as `@return`.
 
-### Paragraphs
+### 段落
 
 One blank line—that is, a line containing only the aligned leading asterisk (`*`)—appears between paragraphs, and before the group of block tags if present.
 
-### Block tags
+### 区块标签
 
 Any of the standard "block tags" that are used appear in the order `@constructor`, `@receiver`, `@param`, `@property`, `@return`, `@throws`, `@see`, and these never appear with an empty description. When a block tag doesn't fit on a single line, continuation lines are indented 8 spaces from the position of the `@`.
 
 
-## Summary fragment
+## 概要片段
 
 Each KDoc block begins with a brief summary fragment. This fragment is very important: it is the only part of the text that appears in certain contexts such as class and method indexes.
 
 This is a fragment–a noun phrase or verb phrase, not a complete sentence. It does not begin with "``A `Foo` is a…``", or "`This method returns…`", nor does it have to form a complete imperative sentence like "`Save the record.`". However, the fragment is capitalized and punctuated as if it were a complete sentence.
 
 
-## Usage
+## 用法
 
 At the minimum, KDoc is present for every `public` type, and every `public` or `protected` member of such a type, with a few exceptions noted below.
 
-### Exception: self-explanatory functions
+### 例外: 无需解释的方法
 
 KDoc is optional for "simple, obvious" functions like `getFoo` and properties like `foo`, in cases where there really and truly is nothing else worthwhile to say but "Returns the foo".
 
 It is not appropriate to cite this exception to justify omitting relevant information that a typical reader might need to know. For example, for a function named `getCanonicalName` or property named `canonicalName`, don't omit its documentation (with the rationale that it would say only `/** Returns the canonical name. */`) if a typical reader may have no idea what the term "canonical name" means!
 
-### Exception: overrides
+### 例外: 重载
 
 KDoc is not always present on a method that overrides a supertype method.
