@@ -1,16 +1,16 @@
-Kotlin Guides
+Kotlin 指导
 =============
 
-Source for the [Android Kotlin Guides][1] website.
+[Android Kotlin Guides][1] 网站的第三方简体中文翻译，维护者 @fython 。
 
-For contributor information, see the [website][2].
+关于贡献信息，请查看 [website][2]。
 
 
 
-License
+许可
 -------
 
-See ["Content License"][3].
+请查看 ["内容许可"][3].
 
 
 

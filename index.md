@@ -1,6 +1,6 @@
 ---
 layout: default
-title: 主页 - Kotlin 指导
+title: 主页
 permalink: /index.html
 is_site_nav_category: true
 site_nav_category: home
@@ -17,6 +17,6 @@ site_nav_category_order: 1
   </div>
 
   <div class="mdl-cell mdl-cell--6-col">
-      <img src="{{ site.baseurl }}/assets/home.png"/>
+      <img src="https://android.github.io/kotlin-guides/assets/home.png"/>
   </div>
 </div>
