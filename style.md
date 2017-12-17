@@ -660,7 +660,7 @@ val nonEmptyArray = arrayOf("这些", "可以", "改变")
 
 ### 返回值属性
 
-When a [backing property](https://kotlinlang.org/docs/reference/properties.html#backing-properties) is needed, its name should exactly match that of the real property except prefixed with an underscore.
+当一个[返回值属性](https://kotlinlang.org/docs/reference/properties.html#backing-properties)需要时，其名字应该和实际属性的名字完全匹配，除了前缀是下划线。
 
 ```kotlin
 private var _table: Map<String, Int>? = null
@@ -677,45 +677,45 @@ val table: Map<String, Int>
 
 ## 类型变量名
 
-Each type variable is named in one of two styles:
+每个类型变量都以两种风格其中之一进行命名：
 
- 1. A single capital letter, optionally followed by a single numeral (such as `E`, `T`, `X`, `T2`)
- 2. A name in the form used for classes, followed by the capital letter `T` (such as `RequestT`, `FooBarT`)
+ 1. 一个大写字母，可以跟着一个数字。（比如 `E`、`T`、`X`、`T2`）
+ 2. 用于类的形式的名字跟随着一个大写字母 `T` （比如 `RequestT`、`FooBarT`）
 
 
 ## 驼峰命名
 
-Sometimes there is more than one reasonable way to convert an English phrase into camel case, such as when acronyms or unusual constructs like "IPv6" or "iOS" are present. To improve predictability, use the following scheme.
+有时，有多种合理的方法将英文词语转换为驼峰命名，比如缩略词或像 "IPv6" 或 "iOS" 等不寻常的词语结构。为了提高可预测性、降低理解难度，使用以下的方案。
 
-Beginning with the prose form of the name:
+从名字的散文形式（the prose form）开始：
 
- 1. Convert the phrase to plain ASCII and remove any apostrophes. For example, "Müller's algorithm" might become "Muellers algorithm".
+ 1. 将词语转换到简单的 ASCII 并移除任何撇号。比如 "Müller's algorithm" 可以变成 "Muellers algorithm"。
 
- 2. Divide this result into words, splitting on spaces and any remaining punctuation (typically hyphens).
+ 2. 将这个结果分割成单词，分割空格和任何剩下的标点符号（通常是连接字符）。
 
-    * _Recommended_: if any word already has a conventional camel-case appearance in common usage, split this into its constituent parts (e.g., "AdWords" becomes "ad words"). Note that a word such as "iOS" is not really in camel case _per se_; it defies _any_ convention, so this recommendation does not apply.
+    * _推荐_: 如果任何单词已经有了广泛使用的公认驼峰命名案例，则将其分割成它的组成部分（比如 "AdWords" 变成 "ad words"）。请注意像 "iOS" 这样的单词本身并不是真正的驼峰命名例子，其违背了 _任何_ 案例，因此这个建议不适用。
 
- 3. Now lowercase everything (including acronyms), then uppercase only the first character of:
+ 3. 现在全部字母小写（包括首字母缩略词），然后只对第一个字符大写：
 
-    * ...each word, to yield pascal case, or
+    * ...每个单词都产生驼峰，或
 
-    * ...each word except the first, to yield camel case
+    * ...除了第一个，每个单词都产生驼峰
 
- 4. Finally, join all the words into a single identifier.
+ 4. 最终，组合所有词成一个标识符。
 
-Note that the casing of the original words is almost entirely disregarded.
+请注意，原词语的原样式几乎完全被忽略。
 
-| **Prose form**         | **Correct**                             | **Incorrect**       |
-|------------------------|-----------------------------------------|---------------------|
-| "XML Http Request"     | `XmlHttpRequest`                        | `XMLHTTPRequest`    |
-| "new customer ID"      | `newCustomerId`                         | `newCustomerID`     |
-| "inner stopwatch"      | `innerStopwatch`                        | `innerStopWatch`    |
-| "supports IPv6 on iOS" | `supportsIpv6OnIos`                     | `supportsIPv6OnIOS` |
-| "YouTube importer"     | `YouTubeImporter`<br>`YoutubeImporter`* |                     |
+| **散文形式（Prose form）** | **正确**                                | **错误**            |
+|----------------------------|-----------------------------------------|---------------------|
+| "XML Http Request"         | `XmlHttpRequest`                        | `XMLHTTPRequest`    |
+| "new customer ID"          | `newCustomerId`                         | `newCustomerID`     |
+| "inner stopwatch"          | `innerStopwatch`                        | `innerStopWatch`    |
+| "supports IPv6 on iOS"     | `supportsIpv6OnIos`                     | `supportsIPv6OnIOS` |
+| "YouTube importer"         | `YouTubeImporter`<br>`YoutubeImporter`* |                     |
 
-(_*Acceptable, but not recommended._)
+(_*可接受使用，但不会推荐。_)
 
-**Note**: Some words are ambiguously hyphenated in the English language: for example "nonempty" and "non-empty" are both correct, so the method names `checkNonempty` and `checkNonEmpty` are likewise both correct.
+**注意**: 有些英文单词是不明确地使用连接字符：比如 "nonempty" 和 "non-empty" 都是对的，所以方法名 `checkNonempty` 和 `checkNonEmpty` 都似乎是正确的。
 
 
 # 文档
@@ -723,52 +723,52 @@ Note that the casing of the original words is almost entirely disregarded.
 
 ## 格式
 
-The basic formatting of KDoc blocks is seen in this example:
+KDoc 区块的基本格式如下：
 
 ```kotlin
 /**
- * Multiple lines of KDoc text are written here,
- * wrapped normally…
+ * 多行 KDoc 文本在这里写，
+ * 通常这样包裹着……
  */
 fun method(arg: String) {
     // …
 }
 ```
 
-...or in this single-line example:
+...或者像这样的单行注释:
 
 ```kotlin
-/** An especially short bit of KDoc. */
+/** 一个非常短的 KDoc。 */
 ```
 
-The basic form is always acceptable. The single-line form may be substituted when the entirety of the KDoc block (including comment markers) can fit on a single line. Note that this only applies when there are no block tags such as `@return`.
+基本格式总是可以接受的。当整个 KDoc 区块（包括注释标记）可以放在一行上时，可以代替单行形式。请注意，这只适用于没有区块注释（例如 `@return`）的情况。
 
 ### 段落
 
-One blank line—that is, a line containing only the aligned leading asterisk (`*`)—appears between paragraphs, and before the group of block tags if present.
+一个空白行——即只包括对齐的前置星号（`*`）的行在段落之间出现，并在区块标记组（如果存在）前出现。
 
 ### 区块标签
 
-Any of the standard "block tags" that are used appear in the order `@constructor`, `@receiver`, `@param`, `@property`, `@return`, `@throws`, `@see`, and these never appear with an empty description. When a block tag doesn't fit on a single line, continuation lines are indented 8 spaces from the position of the `@`.
+任何使用的标准“区块标签”都按照 `@constructor`、`@receiver`、`@param`、`@property`、`@return`、`@throws`、`@see` 的顺序且都不会空的描述出现。当一个区块标记不适合在单行时，连续行将从 `@` 的位置缩进 8 个空格。
 
 
 ## 概要片段
 
-Each KDoc block begins with a brief summary fragment. This fragment is very important: it is the only part of the text that appears in certain contexts such as class and method indexes.
+每个 KDoc 区块以一个简短的概要片段开始，这个片段非常重要：它是文本的唯一部分出现在某些上下文中，例如类和方法索引。
 
-This is a fragment–a noun phrase or verb phrase, not a complete sentence. It does not begin with "``A `Foo` is a…``", or "`This method returns…`", nor does it have to form a complete imperative sentence like "`Save the record.`". However, the fragment is capitalized and punctuated as if it were a complete sentence.
+它是一个片段——一个名词短语或动词短语，而不是一个完整的句子。其不以 "``A `Foo` is a…``" 或 "`This method returns…`" 开头，也不必形成一个完整的祈使句，如 "`Save the record.`"。然而，这个片段是大写开头且有标点，就好像是一个完整的句子一样。
 
 
 ## 用法
 
-At the minimum, KDoc is present for every `public` type, and every `public` or `protected` member of such a type, with a few exceptions noted below.
+每个 `public` 类型、`public` 或 `protected` 的成员都至少有 KDoc，除了下面举出的例子。
 
 ### 例外: 无需解释的方法
 
-KDoc is optional for "simple, obvious" functions like `getFoo` and properties like `foo`, in cases where there really and truly is nothing else worthwhile to say but "Returns the foo".
+对于像 `getFoo` 这样“简单、明显”的方法和像 `foo` 这样的属性，KDoc 是可选的。在真的没有什么可说的时候，就是 "Returns the foo"。
 
-It is not appropriate to cite this exception to justify omitting relevant information that a typical reader might need to know. For example, for a function named `getCanonicalName` or property named `canonicalName`, don't omit its documentation (with the rationale that it would say only `/** Returns the canonical name. */`) if a typical reader may have no idea what the term "canonical name" means!
+引用这个例外是不恰当的，因为我们可能忽略读者通常需要知道的相关信息。例如一个叫 `getCanonicalName` 的方法或者叫 `canonicalName` 的属性，如果通常读者可能不知道术语的 `canonical name` 的意思的话，就不要忽略它的文档（合理地是解释 `/** Returns the canonical name. */`）！
 
 ### 例外: 重载
 
-KDoc is not always present on a method that overrides a supertype method.
+KDoc 并不是总出现在重载的 super 类型方法。
