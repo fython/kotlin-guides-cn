@@ -6,33 +6,35 @@ site_nav_category_order: 400
 is_site_nav_category: true
 ---
 
-Contributions to this website are welcome and appreciated!
+**本页仅从官方直接翻译过来，页面均指向原文。如果要为文档新增、修改内容（不是指翻译结果）请提交到官方的 GitHub Repo，本 Repo 仅从官方拉取内容上的改动。对于翻译问题，您仍可以在本 Repo 上提出 Issues 或 Pull Request 进行修正，更多详情请跳到 GitHub：[fython/kotlin-guides-cn](https://github.com/fython/kotlin-guides-cn)**
 
-To contribute to this website, feel free to create pull requests for small fixes. For bigger contributions we recommend to start an issue on the [issue tracker](https://github.com/android/kotlin-guides/issues) first.
+我们欢迎且十分支持为这个网站作出贡献！
 
-Pull requests should be made targeting the `master` branch of the [GitHub repo](https://github.com/android/kotlin-guides). Every few weeks, the [change log](changelog.html) will be updated and all changes in that time period will be released to the `gh-pages` branch.
+要为这个网站作出贡献，小修改请自由地创建 Pull Request。对于更大的贡献我们推荐先于 [issue tracker](https://github.com/android/kotlin-guides/issues) 中提出 Issue 进行讨论。
 
-**We are looking forward to all of your contributions!**
+Pull requests 应当设定目标为 [GitHub repo](https://github.com/android/kotlin-guides) 的 `master` 分支。每几周 [更新改动](changelog.html) 将会被升级且所有改动都会定期地推送到 `gh-pages` 分支。
+
+**我们期待你的所有贡献！**
 
 
-## Development
+## 开发
 
-You can run the site locally on your computer while making changes.
+在改动过程你可以在你的计算机本地运行网站。
 
-### Setup Ruby and Bundler
+### 安装 Ruby 和 Bundler
 
-Ensure that you have Ruby and [Bundler](http://bundler.io/) installed.
+确保你已经安装了 Ruby 和 [Bundler](http://bundler.io/)。
 
     gem install bundler
 
-### One-time setup
+### 一次性设置
 
     bundle install --path vendor/bundle
 
-_Note: If you're on Mac OS and this fails installing nokogiri, run `brew unlink xz`, install, and then `brew link xz`._
+_注意: 如果你在 Mac OS 平台上，这会在安装 nokogiri 时失败，先运行 `brew unlink xz`，安装它然后再 `brew link xz`。_
 
-### Running the site
+### 运行网站
 
     bundle exec jekyll serve
 
-Point your browser at [http://127.0.0.1:4000/kotlin-guides/](http://127.0.0.1:4000/kotlin-guides/).
+在你的浏览器中打开 [http://127.0.0.1:4000/kotlin-guides/](http://127.0.0.1:4000/kotlin-guides/)。
