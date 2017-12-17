@@ -8,7 +8,7 @@ site_nav_category_order: 300
 
 一套用于编写 Java 与 Kotlin 间使用公共 API 的规则，目的是让代码在其它语言也能使用到感到习惯的用法。
 
-_<a href="changelog.html">Last update: {{ site.changes.last.date | date: "%Y-%m-%d" }}</a>_
+_<a href="changelog.html">上次更新时间（官方源）: {{ site.changes.last.date | date: "%Y-%m-%d" }}</a>_
 
 
 # Java (为 Kotlin 使用时)
@@ -63,8 +63,8 @@ public final class User {
 }
 ```
 ```kotlin
-val name = user.name // Invokes user.getName()
-val active = user.active // Invokes user.isActive()
+val name = user.name // 会调用 user.getName()
+val active = user.active // 会调用 user.isActive()
 ```
 
 对应的改值方法需要 `set` 前缀。
@@ -192,28 +192,28 @@ _注明: 这个建议未来可能会改变，请看 [KT-7770](https://youtrack.j
 
 ## 避免 `Nothing` 泛型
 
-A type whose generic parameter is `Nothing` is exposed as raw types to Java. Raw types are rarely used in Java and should be avoided.
+泛型参数为 `Nothing` 类型会作为原始类型暴露给 Java，原始类型很少在 Java 中使用且应当避免。
 
 
-## 记载 Exceptions
+## 记载异常 （Exceptions）
 
-Functions which can throw checked exceptions should document them with `@Throws`. Runtime exceptions should be documented in KDoc.
+会抛出 Checked Exceptions（会被检查的异常）的方法应该使用 `@Throws` 记载那些异常。运行时异常应在 KDoc 中被记载。
 
-Be mindful of the APIs a function delegates to as they may throw checked exceptions which Kotlin otherwise silently allows to propagate.
+要留意一个方法所代表的 API，Kotlin 默许它们可以抛出 Checked Exceptions（会被检查的异常）。
 
 
-## 预防性复制副本
+## 保护性复制副本（Defensive copy/保护性拷贝）
 
-When returning shared or unowned read-only collections from public APIs, wrap them in an unmodifiable container or perform a defensive copy. Despite Kotlin enforcing their read-only property, there is no such enforcement on the Java side. Without the wrapper or defensive copy, invariants can be violated by returning a long-lived collection reference.
+当从公共 API 中返回共享/不被持有（unowned）的只读集合（Collections），请用一个不可修改的容器包装它们，或者进行保护性复制副本。尽管 Kotlin 会强制设置它们的只读属性，但在 Java 那端不会有这样的强制性措施。没有包装或者保护性复制副本，通过返回一个长期存活的集合引用则可以违背不可变性。
 
 
 ## 伴随方法
 
-Public functions in a `companion object` must be annotated with `@JvmStatic` to be exposed as a static method.
+在 `companion object` 内的公开方法必须用 `@JvmStatic` 标注来暴露为一个静态方法。
 
-Without the annotation, these functions are only available as instance methods on a static `Companion` field.
+没有标注，这些方法只能在静态的 `Companion` 成员中作为一个实例方法可用。
 
-_Incorrect: no annotation_
+_不正确: 没有标注_
 
 ```kotlin
 class KotlinClass {
@@ -232,7 +232,7 @@ public final class JavaClass {
 }
 ```
 
-_Correct: `@JvmStatic` annotation_
+_正确: `@JvmStatic` 标注_
 
 
 ```kotlin
@@ -255,11 +255,11 @@ public final class JavaClass {
 
 ## 伴随常量
 
-Public, non-`const` properties which are [_effective constants_](TODO) in a `companion object` must be annotated with `@JvmField` to be exposed as a static field.
+那些有用的公开、非 `const`（非常量）的属性（[_effective constants_](TODO)）在 `companion object` 必须用 `@JvmField` 标注暴露为一个静态成员。
 
-Without the annotation, these properties are only available as oddly-named instance 'getters' on the static `Companion` field. Using `@JvmStatic` instead of `@JvmField` moves the oddly-named 'getters' to static methods on the class which is still incorrect.
+没有标注，这些方法这能在静态的 `Companion` 成员中以命名奇怪的实例 `getters` 可用。在仍然不正确的类中使用 `@JvmStatic` 来取代 `@JvmField` 可以为静态方法移除命名奇怪的 `getters` 。
 
-_Incorrect: no annotation_
+_不正确: 没有标注_
 
 ```kotlin
 class KotlinClass {
@@ -278,7 +278,7 @@ public final class JavaClass {
 }
 ```
 
-_Incorrect: `@JvmStatic` annotation_
+_不正确: `@JvmStatic` 标注_
 
 ```kotlin
 class KotlinClass {
@@ -297,7 +297,7 @@ public final class JavaClass {
 }
 ```
 
-_Correct: `@JvmField` annotation_
+_正确: `@JvmField` 标注_
 
 ```kotlin
 class KotlinClass {
@@ -318,9 +318,9 @@ public final class JavaClass {
 
 ## 习惯命名
 
-Kotlin has different calling conventions than Java which can change the way you name functions. Use `@JvmName` to design names such that they'll feel idiomatic for both language's conventions or to match their respective standard library naming.
+Kotlin 有着和 Java 不一样的调用惯例，这会改变你命名函数的方式。使用 `@JvmName` 来为感到不自然的方法设计名字，照顾到两边语言不同的习惯，与它们各自的标准库命名所匹配。
 
-This most frequently occurs for extension functions and extension properties because the location of the receiver type is different.
+这最频繁出现于扩展方法和扩展属性，因为它们的接收器类型位置是不一样的。
 
 ```kotlin
 sealed class Optional<T : Any>
@@ -348,14 +348,14 @@ public static void main(String... args) {
 
 ## 默认参数的方法重载
 
-Functions with parameters having a default value must use `@JvmOverloads`. Without this annotation it is impossible to invoke the function using any default values.
+参数拥有默认值的方法必须使用 `@JvmOverloads`，没有这个标注是无法调用一个使用默认值参数的方法。
 
-When using `@JvmOverloads`, inspect the generated methods to ensure they each make sense. If they do not, perform one or both of the following refactorings until satisfied:
+当使用 `@JvmOverloads` 时，检查它们生成的方法确保各有意义。如果没有的话，进行下列修改直至满意：
 
- 1. Change the parameter order to prefer those with defaults being towards the end.
- 2. Move the defaults into manual function overloads.
+ 1. 改变参数的顺序让优先选择默认值的参数在结尾。
+ 2. 在重载函数中手动移动默认值。
 
-_Incorrect: No `@JvmOverloads`_
+_不正确: 没有 `@JvmOverloads`_
 
 ```kotlin
 class Greeting {
@@ -373,7 +373,7 @@ public class JavaClass {
 }
 ```
 
-_Correct: `@JvmOverloads` annotation._
+_正确: `@JvmOverloads` 标注._
 
 ```kotlin
 class Greeting {
