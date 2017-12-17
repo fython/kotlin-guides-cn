@@ -121,7 +121,7 @@ fun <T, O> List<T>.map(func: (T) -> O): List<O> = // …
 
 对文件内容的数量和顺序没有明确的限制。
 
-源文件通常是从上至下的阅读，这意味着顺序通常反应出上面的声明会让人们更深入地裂解这些内容。不同的文件可能选择不同的顺序。同样地，一个文件可能包含 100 个属性、10 个函数以及另外的一个类。
+源文件通常是从上至下的阅读，这意味着顺序通常反应出上面的声明会让人们更深入地了解这些内容。不同的文件可能选择不同的顺序。同样地，一个文件可能包含 100 个属性、10 个函数以及另外的一个类。
 
 重要的是，每个类都是用 **_一些_** 维护者可以解释的 **逻辑顺序**。例如，新的方法不只是习惯地添加到类之后，这样会产生不合乎逻辑的“按日期添加”顺序。
 
@@ -134,7 +134,7 @@ fun <T, O> List<T>.map(func: (T) -> O): List<O> = // …
 
 ## 花括号
 
-Braces are not required for `when` branches and `if` statement bodies which have no `else if`/`else` branches and which fit on a single line.
+对 `when` 的分支和没有 `else if` 或 `else` 分支的 `if` 语句来说，写成单行时花括号不是必需的。
 
 ```kotlin
 if (string.isEmpty()) return
@@ -145,25 +145,25 @@ when (value) {
 }
 ```
 
-Braces are otherwise required for any `if`, `for`, `when` branch, `do`, and `while` statements, even when the body is empty or contains only a single statement.
+对任何 `if`、`for`、`when` 的分支和 `do`、`while` 的表达式中，即便代码体是 空的或仅包含单行语句时，花括号也是必需的。
 
 ```kotlin
 if (string.isEmpty())
-    return  // WRONG!
+    return  // 错误的!
 
 if (string.isEmpty()) {
-    return  // Okay
+    return  // 正确
 }
 ```
 
 ### 非空代码区块
 
-Braces follow the Kernighan and Ritchie style ("Egyptian brackets") for nonempty blocks and block-like constructs:
+非空代码区块和区块型构造花括号遵循 Kernighan 和 Ritchie 风格 ("Egyptian brackets")：
 
-* No line break before the opening brace.
-* Line break after the opening brace.
-* Line break before the closing brace.
-* Line break after the closing brace, _only if_ that brace terminates a statement or terminates the body of a function, constructor, or _named_ class. For example, there is _no_ line break after the brace if it is followed by `else` or a comma.
+* 头部花括号不需要换行
+* 在头部花括号后换行
+* 在尾部花括号前换行
+* 只有在花括号结束一个语句、一个方法的代码体或者一个命名类时，才在尾部花括号后换行。例如花括号后面有 `else` 或者逗号时不用换行。
 
 ```kotlin
 return Runnable {
@@ -189,39 +189,39 @@ return object : MyClass() {
 }
 ```
 
-A few exceptions for [enum classes](#enum-classes) are given below.
+一些 [常量方法](#enum-classes) 的例外会在下面给出。
 
 ### 空的代码区块
 
-An empty block or block-like construct must be in K&R style.
+一个空的代码区块或者区块型构造必须是 K&R 风格。
 
 ```kotlin
 try {
     doSomething()
-} catch (e: Exception) {} // WRONG!
+} catch (e: Exception) {} // 错误的!
 ```
 ```kotlin
 try {
     doSomething()
 } catch (e: Exception) {
-} // Okay
+} // 可以
 ```
 
 ### 表达式
 
-An `if`/`else` conditional that is used as an expression may omit braces _only_ if the entire expression fits on one line.
+用作表达式的 `if`/`else` 可能会省略花括号，但仅在整个表达式只有一行时适用。
 
 ```kotlin
-val value = if (string.isEmpty()) 0 else 1  // Okay
+val value = if (string.isEmpty()) 0 else 1  // 可以
 ```
 ```kotlin
-val value = if (string.isEmpty())  // WRONG!
+val value = if (string.isEmpty())  // 错误的!
                 0
             else
                 1
 ```
 ```kotlin
-val value = if (string.isEmpty()) { // Okay
+val value = if (string.isEmpty()) { // 可以
     0
 } else {
     1
@@ -231,49 +231,49 @@ val value = if (string.isEmpty()) { // Okay
 
 ## 缩进
 
-Each time a new block or block-like construct is opened, the indent increases by four spaces. When the block ends, the indent returns to the previous indent level. The indent level applies to both code and comments throughout the block.
+每次打开一个新的代码区块或者区块型构造，缩进增加四个空格。当区块结束时，缩进回到前一个级别。缩进级别适用于整个区块的代码和注释。
 
 
 ## 一行一句
 
-Each statement is followed by a line break. Semicolons are not used.
+每句都断行，并且不使用分号。
 
 
 ## 行宽
 
-Code has a column limit of 100 characters. Except as noted below, any line that would exceed this limit must be line-wrapped, as explained below.
+一列的代码被限制在 100 个字符内。除了下面的情况，任何超过这个限制的行，都必须按照下面的解释进行换行。
 
-Exceptions:
+例外:
 
-* Lines where obeying the column limit is not possible (for example, a long URL in KDoc)
-* `package` and `import` statements
-* Command lines in a comment that may be cut-and-pasted into a shell
+* 不可能遵循列限制的行 (比如在 KDoc 的一条长链接地址)
+* `package` 和 `import` 声明
+* 可能会被拷贝到 Shell 中使用的命令行
 
-### 断句位置
+### 换行位置
 
-The prime directive of line-wrapping is: prefer to break at a **higher syntactic level**. Also:
+换行的主要指示：优先在更高的句式级别上换行。包括：
 
- 1. When a line is broken at a _non-assignment_ operator the break comes _before_ the symbol.
-    * This also applies to the following "operator-like" symbols:
-      * the dot separator (`.`)
-      * the two colons of a member reference (`::`)
- 2. When a line is broken at an _assignment_ operator the break comes _after_ the symbol.
- 3. A method or constructor name stays attached to the open parenthesis (`(`) that follows it.
- 4. A comma (`,`) stays attached to the token that precedes it.
- 5. A lambda arrow (`->`) stays attached to the argument list that precedes it.
+ 1. 当一行在 _非赋值_ 运算符换行时，在符号 _之前_ 断行。
+    * 这也适用于 "类似运算符" 的符号:
+      * 分割符：句号 (`.`)
+      * 方法引用：两个冒号 (`::`)
+ 2. 当一行在 _赋值_ 运算符换行时，在符号 _之后_ 断行。
+ 3. 一个方法或构造名要紧跟着它的头部括号 (`(`)。
+ 4. 一个逗号 (`,`) 要紧跟着它前面的标志（Token）。
+ 5. 一个 Lambda 箭头 (`->`) 要紧跟它前面的参数列表。
 
-Note: The primary goal for line wrapping is to have clear code, _not necessarily_ code that fits in the smallest number of lines.
+注意: 换行的主要目的是拥有更清晰的代码，_不一定_ 要让代码有最少的行数。
 
 
 ### 继续缩进
 
-When line-wrapping, each line after the first (each _continuation line_) is indented at least +8 from the original line.
+当换行后，每一行 (每个 _连续行_) 之后对原来的行至少缩进 +8。
 
-When there are multiple continuation lines, indentation may be varied beyond +8 as desired. In general, two continuation lines use the same indentation level if and only if they begin with syntactically parallel elements.
+当有多个连续行时，缩进可能根据需求增加到 +8 以上。通常来说，当且仅当两个连续行在语法上并行的元素开始时，使用相同的缩进级别。
 
 ### 函数
 
-When a function signature does not fit on a single line, break each parameter declaration onto its own line. Parameters defined in this format should use a single indent (+4). The closing parenthesis (`)`) and return type are placed on their own line with no additional indent.
+当一个函数签名不在一行内时，每个参数声明都断出自己的行。在这种格式定义的参数应该使用单缩进（+4）。尾部括号 (`)`) 和返回类型放在独自的行且没有额外的缩进。
 
 ```kotlin
 fun <T> Iterable<T>.joinToString(
@@ -287,29 +287,29 @@ fun <T> Iterable<T>.joinToString(
 
 #### 表达式函数
 
-When a function contains only a single expression it can be represented as an [expression function](https://kotlinlang.org/docs/reference/functions.html#single-expression-functions).
+当一个函数只包含一行表达式时它代表了一个 [表达式函数](https://kotlinlang.org/docs/reference/functions.html#single-expression-functions).
 
 ```kotlin
 override fun toString(): String {
-    return "Hey"
+    return "嘿"
 }
 ```
 ```kotlin
-override fun toString(): String = "Hey"
+override fun toString(): String = "嘿"
 ```
 
-Expression functions should not wrap to two lines. If an expression function grows to require wrapping, use a normal function body, a `return` declaration, and normal expression wrapping rules instead.
+表达式函数不应该换到两行，如果一个表达式很长以至于需要换行，使用正常的函数体、`return` 声明和正常的表达式换行规则代替。
 
 ### 属性
 
-When a property initializer does not fit on a single line, break after the equals sign (`=`) and use a continuation indent.
+当一个属性的初始化不在一行内，在等号 (`=`) 后换行并使用继续缩进。
 
 ```kotlin
 private val defaultCharset: Charset? =
         EncodingRegistry.getInstance().getDefaultCharsetForPropertiesFiles(file)
 ```
 
-Properties declaring a `get` and/or `set` function should place each on their own line with a normal indent (+4). Format them using the same rules as functions.
+声明了 `get` 和/或 `set` 方法的属性应当在它们各自的行内且有一个正常缩进（+4）。使用和函数一样的规则格式。
 
 ```kotlin
 var directory: File? = null
@@ -318,7 +318,7 @@ var directory: File? = null
     }
 ```
 
-Read-only properties can use a shorter syntax which fits on a single line.
+只读属性可以在一行内时可以使用更简短的句式。
 
 ```kotlin
 val defaultExtension: String get() = "kt"
