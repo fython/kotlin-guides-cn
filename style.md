@@ -603,7 +603,7 @@ package com.example.deep_space
 
 ## 类名
 
-类名使用 PascalCase 法命名且通常为名词或名词短语。比如，`Character` 或 `ImmutableList`。接口名字可以是名词或名词短语（比如 `List），但有时也可以是形容词或者形容词短语（比如 `Readable`）。
+类名使用 PascalCase 法命名且通常为名词或名词短语。比如，`Character` 或 `ImmutableList`。接口名字可以是名词或名词短语（比如 `List`），但有时也可以是形容词或者形容词短语（比如 `Readable`）。
 
 测试类使用要测试的类的名字作为开头，并以 `Test` 结尾。比如 `HashTest` 或 `HashIntegrationTest`。
 
